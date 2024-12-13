@@ -1,0 +1,34 @@
+.task-form {
+    margin-top: 30px;
+}
+
+.ant-switch-checked{
+    background: green !important;
+ }
+
+ .high-priority, .medium-priority, .low-priority {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+ }
+
+ .high-priority > div {
+    width: 10px;
+    height: 10px;
+    background-color: #F26262;
+    border-radius: 50%;
+ }
+
+ .medium-priority > div {
+    width: 10px;
+    height: 10px;
+    background-color: #fad60a;
+    border-radius: 50%;
+ }
+
+ .low-priority > div {
+    width: 10px;
+    height: 10px;
+    background-color: #87d068;
+    border-radius: 50%;
+ }
