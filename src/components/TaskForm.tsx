@@ -11,8 +11,9 @@ import {
 } from "antd";
 import "./TaskForm.css";
 import type { FormProps } from "antd";
-import { DataType } from "../types";
+import { DataType } from "../utils/types";
 import dayjs from "dayjs";
+import { addTasks, updateTask } from "../api/apiUtils";
 
 interface TaskFormProps {
   open: boolean;
@@ -22,6 +23,7 @@ interface TaskFormProps {
   currentEdit: DataType | null;
   setCurrentEdit: Dispatch<SetStateAction<DataType | null>>;
   setTableData: Dispatch<SetStateAction<DataType[]>>;
+  tableData: DataType[];
 }
 
 const TaskForm: React.FC<TaskFormProps> = ({
@@ -32,6 +34,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
   setCurrentEdit,
   currentEdit,
   setTableData,
+  tableData,
 }) => {
   const [form] = Form.useForm();
   const [api, contextHolder] = notification.useNotification();
@@ -48,7 +51,9 @@ const TaskForm: React.FC<TaskFormProps> = ({
   }, [currentEdit, updateModalOpen]);
 
   const showModal = () => {
-    form.resetFields();
+    if (form) {
+      form.resetFields();
+    }
     setOpen(true);
   };
 
@@ -58,7 +63,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
     form.resetFields();
   };
 
-  const handleFinish: FormProps<DataType>["onFinish"] = (values) => {
+  const handleFinish: FormProps<DataType>["onFinish"] = async (values) => {
     const newTask = {
       ...values,
       key: values.title + String(Date.now()),
@@ -68,17 +73,43 @@ const TaskForm: React.FC<TaskFormProps> = ({
       status: values.status ? "Completed" : "Not completed",
     };
 
-    setTableData((prev) => {
+    try {
       if (updateModalOpen && currentEdit) {
-        // if updating an existing task
-        return prev.map((task) =>
-          task.key === currentEdit.key ? newTask as DataType : task
+        // Update existing task on server
+        const updatedTask = await updateTask(
+          currentEdit?.id as string,
+          newTask as DataType
+        ); // Assuming currentEdit has the 'id' property
+
+        console.log(updatedTask)
+        // Update local state
+        setTableData((prev) =>
+          prev.map((task) =>
+            task.key === currentEdit.key ? updatedTask : task
+          )
         );
       } else {
         // Add a new task
-        return [...prev, newTask as DataType];
+        const addedTask = await addTasks(newTask as DataType);
+
+        // Update local state
+        setTableData((prev) => [...prev, addedTask]);
       }
-    });
+    } catch (error) {
+      console.error("Error saving task:", error);
+    }
+
+    // setTableData((prev) => {
+    //   if (updateModalOpen && currentEdit) {
+    //     // if updating an existing task
+    //     return prev.map((task) =>
+    //       task.key === currentEdit.key ? (newTask as DataType) : task
+    //     );
+    //   } else {
+    //     // Add a new task
+    //     return [...prev, newTask as DataType];
+    //   }
+    // });
 
     // Close modal
     setTimeout(() => {
@@ -118,8 +149,8 @@ const TaskForm: React.FC<TaskFormProps> = ({
             onFinish={handleFinish}
             onFinishFailed={() => {
               api.open({
-                message: "Oh no, something happened...",
-                description: "Task list update failed",
+                message: "ERROR",
+                description: "Something went wrong, please try again.",
                 duration: 2,
               });
             }}
@@ -134,7 +165,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
             name="title"
             label="Title"
             rules={[{ required: true }]}
-          > 
+          >
             <Input />
           </Form.Item>
           <Form.Item

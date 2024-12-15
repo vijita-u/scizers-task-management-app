@@ -7,7 +7,8 @@ import {
   DeleteOutlined,
   SettingFilled,
 } from "@ant-design/icons";
-import { DataType } from "../types";
+import { DataType } from "../utils/types";
+import { fetchTasks, deleteTask } from "../api/apiUtils";
 
 interface TaskTableProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
@@ -15,21 +16,38 @@ interface TaskTableProps {
   setUpdateModalOpen: Dispatch<SetStateAction<boolean>>;
   setCurrentEdit: Dispatch<SetStateAction<DataType | null>>;
   tableData: DataType[];
+  setTableData: Dispatch<SetStateAction<DataType[]>>;
 }
 
 const TaskTable: React.FC<TaskTableProps> = ({
   setUpdateModalOpen,
   setCurrentEdit,
   tableData,
+  setTableData
 }) => {
+
+  // Fetch tasks
+  useEffect(() => {
+    const getTasks = async () => {
+      const fetchedTasksList = await fetchTasks();
+      setTableData(fetchedTasksList)
+    }
+    getTasks()
+    console.log(tableData)
+  }, [])
+
   const handleEdit = (record: DataType) => {
     setUpdateModalOpen(true)
     setCurrentEdit(record)
   };
 
-  useEffect(() => {
-    console.log(tableData)
-  }, [tableData])
+  const handleDelete = async (record: DataType) => {
+    // Update UI
+    setTableData((data) => data.filter((task) => task.key !== record.key))
+
+    // Update server
+    await deleteTask(record?.id as string)
+  }
 
   const columns: TableProps<DataType>["columns"] = [
     {
@@ -89,7 +107,7 @@ const TaskTable: React.FC<TaskTableProps> = ({
           <a onClick={() => handleEdit(record)}>
             <SettingFilled />
           </a>
-          <a>
+          <a onClick={() => handleDelete(record)}>
             <DeleteOutlined />
           </a>
         </Space>
