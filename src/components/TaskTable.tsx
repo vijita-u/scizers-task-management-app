@@ -1,7 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { Space, Table, Tag } from "antd";
 import type { TableProps } from "antd";
-import './TaskTable.css'
 import {
   CheckCircleOutlined,
   ClockCircleOutlined,

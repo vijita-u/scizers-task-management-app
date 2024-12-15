@@ -79,7 +79,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
           newTask as DataType
         );
 
-        console.log(updatedTask)
+        console.log(updatedTask);
         // Update local state
         setTableData((prev) =>
           prev.map((task) =>
@@ -113,8 +113,8 @@ const TaskForm: React.FC<TaskFormProps> = ({
   };
 
   const disabledDates = (current: any) => {
-    return current && current.isBefore(dayjs(), 'day');
-  }
+    return current && current.isBefore(dayjs(), "day");
+  };
 
   return (
     <>
