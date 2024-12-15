@@ -1,50 +1,62 @@
-# React + TypeScript + Vite
+# Task Management Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+As per the guidelines mentioned in the assignment document, this web application is created using React and TypeScript. 
+For this project, I chose Vite over Create React App (CRA) due to dependency version conflicts encountered with CRA. Vite offers faster development builds, modern tooling, and better support for handling dependencies, making it an efficient choice for this application 
 
-Currently, two official plugins are available:
+## Technologies Used
+- React
+- TypeScript
+- Ant Design
+- CSS
+- Axios
+- JSON Server
+- dayjs
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Design Choices
+1. **Responsiveness** - To ensure the table is responsive, I implemented a horizontal scrollbar, drawing inspiration from Notion's table component for its clean and intuitive design.
+2. **No sort feature** - I initially thought about adding an automatic sorting feature that would move completed tasks to the bottom, but I decided to skip it. I felt it was more user-friendly to keep things simple and accessible, similar to how Notion handles it.
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Project Structure
+```
+- /src
+  - /api
+    - api.ts
+    - apiUtils.ts
+  - /components
+    - Body.css
+    - Body.tsx
+    - TaskForm.css
+    - TaskForm.tsx
+    - TaskTable.tsx
+  - /utils
+    - types.ts
+  - App.css
+  - App.tsx
+  - main.tsx
+- db.json
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Steps to Run the App Locally
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Installation
+1. Clone the repository
+   ```
+     git clone https://github.com/vijita-u/scizers-task-management-app.git
+   ```
+2. Install dependencies using npm:
+   ```
+     npm install
+   ```
+3. Run the development server:
+   ```
+     npm run dev
+   ```
+4. Start JSON Server [JSON Server Github Repo](https://github.com/typicode/json-server/tree/v0?tab=readme-ov-file)
+   ```
+   json-server --watch db.json
+   ```
+   Go to  http://localhost:5001/ to access server
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### Deployment
+This app has been deployed on Netlify: [Link](https://scizers-task-app.netlify.app/)
