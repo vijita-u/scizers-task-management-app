@@ -13,9 +13,17 @@ For this project, I chose Vite over Create React App (CRA) due to dependency ver
 - JSON Server
 - dayjs
 
-## Design Choices
+## Choices
 1. **Responsiveness** - To ensure the table is responsive, I implemented a horizontal scrollbar, drawing inspiration from Notion's table component for its clean and intuitive design.
 2. **No sort feature** - I initially thought about adding an automatic sorting feature that would move completed tasks to the bottom, but I decided to skip it. I felt it was more user-friendly to keep things simple and accessible, similar to how Notion handles it.
+
+## Features
+1. Pagination - limited to 5 entries for easier testing
+2. API Integration with a mock server
+3. Edit and Delete task functionality
+4. Updated the Datepicker component to restrict users from selecting past dates
+5. Notification added on Form submit and update for better UI
+6. Ant Design's form validation added
 
 ## Project Structure
 ```
@@ -56,7 +64,8 @@ For this project, I chose Vite over Create React App (CRA) due to dependency ver
    ```
    json-server --watch db.json
    ```
-   Go to  http://localhost:5001/ to access server
+   Go to  http://localhost:5001/ to access server. 
+   If you're running your own mock server, ensure that it's up and running on the same host as the frontend app.
 
 ### Deployment
 This app has been deployed on Netlify: [Link](https://scizers-task-app.netlify.app/)
