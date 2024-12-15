@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Body.css";
 import TaskTable from "./TaskTable";
 import TaskForm from "./TaskForm";

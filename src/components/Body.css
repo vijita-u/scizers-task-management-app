@@ -1,7 +1,18 @@
 .main-body {
-    margin: 50px;
+    margin: 3.125rem;
 }
 
 .table-container {
-    margin-top: 50px
+    margin-top: 0.625rem;
+}
+
+/* For mobile */
+@media only screen and (max-width: 768px) {
+    .main-body {
+        margin: 0.9rem;
+    }
+
+    .table-container {
+        overflow-x: scroll !important;
+    }
 }

@@ -1,5 +1,5 @@
 .task-form {
-    margin-top: 30px;
+    margin-top: 1.875rem;
 }
 
 .ant-switch-checked{
@@ -13,22 +13,22 @@
  }
 
  .high-priority > div {
-    width: 10px;
-    height: 10px;
+    width: 0.625rem;
+    height: 0.625rem;
     background-color: #F26262;
     border-radius: 50%;
  }
 
  .medium-priority > div {
-    width: 10px;
-    height: 10px;
+    width: 0.625rem;
+    height: 0.625rem;
     background-color: #fad60a;
     border-radius: 50%;
  }
 
  .low-priority > div {
-    width: 10px;
-    height: 10px;
+    width: 0.625rem;
+    height: 0.625rem;
     background-color: #87d068;
     border-radius: 50%;
  }

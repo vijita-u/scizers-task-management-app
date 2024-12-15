@@ -31,10 +31,8 @@ const TaskForm: React.FC<TaskFormProps> = ({
   setOpen,
   updateModalOpen,
   setUpdateModalOpen,
-  setCurrentEdit,
   currentEdit,
   setTableData,
-  tableData,
 }) => {
   const [form] = Form.useForm();
   const [api, contextHolder] = notification.useNotification();
@@ -79,7 +77,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
         const updatedTask = await updateTask(
           currentEdit?.id as string,
           newTask as DataType
-        ); // Assuming currentEdit has the 'id' property
+        );
 
         console.log(updatedTask)
         // Update local state
@@ -99,18 +97,6 @@ const TaskForm: React.FC<TaskFormProps> = ({
       console.error("Error saving task:", error);
     }
 
-    // setTableData((prev) => {
-    //   if (updateModalOpen && currentEdit) {
-    //     // if updating an existing task
-    //     return prev.map((task) =>
-    //       task.key === currentEdit.key ? (newTask as DataType) : task
-    //     );
-    //   } else {
-    //     // Add a new task
-    //     return [...prev, newTask as DataType];
-    //   }
-    // });
-
     // Close modal
     setTimeout(() => {
       setOpen(false);
@@ -126,6 +112,10 @@ const TaskForm: React.FC<TaskFormProps> = ({
     });
   };
 
+  const disabledDates = (current: any) => {
+    return current && current.isBefore(dayjs(), 'day');
+  }
+
   return (
     <>
       <Button color="default" variant="solid" onClick={showModal}>
@@ -138,7 +128,6 @@ const TaskForm: React.FC<TaskFormProps> = ({
         open={open ? open : updateModalOpen}
         onCancel={handleCancel}
         okText={updateModalOpen ? "Update" : "Ok"}
-        // onOk={handleOk}
         okButtonProps={{ autoFocus: true, htmlType: "submit" }}
         destroyOnClose
         modalRender={(dom) => (
@@ -202,7 +191,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
             })}
             normalize={(value) => value && `${dayjs(value).valueOf()}`}
           >
-            <DatePicker />
+            <DatePicker disabledDate={disabledDates} />
           </Form.Item>
           <Form.Item
             shouldUpdate
